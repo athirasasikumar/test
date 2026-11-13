@@ -1,0 +1,5 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_product_list,product.list,model_product_list,base.group_user,1,1,1,1
+access_admin,Access Manager,model_material_request,material_request.requisition_manager,1,1,0,0
+access_user,Access Head,model_material_request,material_request.requisition_head,1,1,0,0
+access_user1,Access User,model_material_request,material_request.requisition_user,1,1,1,1

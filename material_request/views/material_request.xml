@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <record id="request_view_tree" model="ir.ui.view">
+        <field name="model">material.request</field>
+        <field name="arch" type="xml">
+            <tree>
+                <field name="name" string="Request ID"/>
+                <field name="user_id" string="Employee"/>
+                <field name="requisition_date" string="Date"/>
+                <field name="state" string="Status" widget="badge"
+                       decoration-success="state == 'submit'"
+                       decoration-info="state == 'submitted'"
+                       decoration-danger="state == 'rejected'"
+                       decoration-warning="state == 'approved'"
+                       decoration-muted="state =='cancel'"/>
+            </tree>
+        </field>
+    </record>
+    <record id="request_view_form" model="ir.ui.view">
+        <field name="model">material.request</field>
+        <field name="arch" type="xml">
+            <form>
+                <header>
+                    <field name="state" widget="statusbar"
+                           options="{'clickable': '1'}" statusbar_visible="submit,submitted"/>
+
+                    <button name="btn_submit" string="Submit" type="object"
+                            class="oe_highlight"
+                            attrs="{'invisible': [('state','!=', 'submit')]}"/>
+
+
+                    <button name="btn_approved" string="ManagerApprove"
+                            type="object"
+                            class="oe_highlight"
+                            groups="material_request.requisition_manager"
+                            attrs="{'invisible': [('state','!=', 'submitted'),('state','!=', 'cancel')]}"/>
+
+                    <button name="btn_head_approve" string="HeadApprove"
+                            type="object"
+                            class="oe_highlight"
+                            groups="material_request.requisition_head"
+                            attrs="{'invisible': [('state','!=', 'approved'),('state','!=', 'cancel')]}"/>
+
+                    <button name="btn_refuse" string="Refuse" type="object"
+                            class="oe_highlight"
+                            groups="material_request.requisition_head"
+                            attrs="{'invisible': [('state','!=', 'submitted'),('state','!=', 'approved')]}"/>
+
+                    <button name="btn_cancel" string="Cancel" type="object"
+                            class="oe_highlight"
+                            attrs="{'invisible': [('state','!=', 'cansel'),('state','!=', 'rejected'),('state','!=', 'submitted'),('state','!=', 'approved')]}"/>
+
+                    <button name="btn_draft" string="BACK TO DRAFT"
+                            type="object"
+                            class="oe_highlight"
+                            attrs="{'invisible': [('state','!=', 'cancel')]}"/>
+
+                </header>
+                <sheet>
+                    <h1>
+                        <field name="name"/>
+                    </h1>
+                    <group>
+                        <group>
+                            <field name="user_id"/>
+                            <field name="requisition_date"/>
+                        </group>
+                    </group>
+                    <notebook>
+                        <page string="Product">
+                            <field name="prod_ids">
+                                <tree editable="bottom">
+                                    <field name="product_id"/>
+                                    <field name="qty"/>
+                                    <field name="receives_from"
+                                           string="Receives From"/>
+                                </tree>
+                            </field>
+                        </page>
+                    </notebook>
+                </sheet>
+
+                <!--    chatter-->
+                <div class="oe_chatter">
+                    <field name="message_follower_ids" widget="mail_followers"/>
+                    <field name="activity_ids"/>
+                    <field name="message_ids" widget="mail_thread"/>
+                </div>
+            </form>
+        </field>
+    </record>
+
+    <!--    sequence number-->
+    <data>
+        <record id="seq_request" model="ir.sequence">
+            <field name="name">request</field>
+            <field name="code">material.request</field>
+            <field name="prefix">MR</field>
+            <field name="padding">4</field>
+            <field name="company_id" eval="False"/>
+        </record>
+    </data>
+
+    <record id="create_request" model="ir.actions.act_window">
+        <field name="name">Material Request</field>
+        <field name="res_model">material.request</field>
+        <field name="view_mode">tree,kanban,form</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Create a new plot, the first step of selling a plot!
+            </p>
+        </field>
+    </record>
+</odoo>

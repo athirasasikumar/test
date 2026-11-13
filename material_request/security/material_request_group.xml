@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record model="ir.module.category" id="material">
+        <field name="name">Requisition</field>
+        <field name="description">User access level for Overtime module</field>
+        <field name="sequence">20</field>
+    </record>
+
+    <record id="requisition_manager" model="res.groups">
+        <field name="name">Manager</field>
+        <field name="category_id" ref="material_request.material"/>
+    </record>
+
+    <record id="requisition_head" model="res.groups">
+        <field name="name">Head</field>
+        <field name="category_id" ref="material_request.material"/>
+
+<!--        <field name="implied_ids" eval="[(4, ref('requisition_manager'))]"/>-->
+    </record>
+
+    <record id="requisition_user" model="res.groups">
+        <field name="name">User</field>
+        <field name="category_id" ref="material_request.material"/>
+
+    </record>
+
+    <record id="material_visibility_user" model="ir.rule">
+        <field name="name">Manager can only approve request</field>
+        <field name="model_id" ref="model_material_request"/>
+        <field name="groups"
+               eval="[(4, ref('material_request.requisition_manager'))]"/>
+    </record>
+</odoo>
+
+
+
+

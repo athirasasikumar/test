@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <menuitem id="request1"
+              name="Material Request"/>
+
+    <menuitem id="request2"
+              name="Request"
+              parent="request1"
+              action="create_request"/>
+</odoo>
